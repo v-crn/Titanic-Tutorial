@@ -45,12 +45,12 @@ def main():
         thresh_drop=4,
         thresh_corr=0.95,
         alt_num='mean', alt_cat='mode',
-        savepath=PATH_TRAIN_PRP)
+        path_train_prp=PATH_TRAIN_PRP)
 
     X_test_prp = prp.exe_test(
         X_test, exclusive_features=EXCLUSIVE_FEATURES,
         alt_num='mean', alt_cat='mode',
-        savepath=PATH_TEST_PRP)
+        path_test_prp=PATH_TEST_PRP)
 
     y_prp = train_prp[TARGET_COLUMN]
     X_prp = utl.except_for(train_prp, TARGET_COLUMN)

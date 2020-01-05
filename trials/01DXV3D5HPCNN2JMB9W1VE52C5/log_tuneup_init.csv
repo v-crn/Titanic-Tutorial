@@ -1,0 +1,52 @@
+,number,state,value,datetime_start,datetime_complete,params,params,params,user_attrs,system_attrs,system_attrs
+,,,,,,LogisticRegression_C,LogisticRegression_solver,model,score,_number,fail_reason
+0,0,TrialState.COMPLETE,0.8561553745768533,2020-01-05 23:58:06.531243,2020-01-05 23:58:07.208569,3.6764327853596357,liblinear,LogisticRegression,0.8561553745768533,0,
+1,1,TrialState.COMPLETE,0.8562071405056928,2020-01-05 23:58:06.536122,2020-01-05 23:58:06.982824,0.40050870491017654,liblinear,LogisticRegression,0.8562071405056928,1,
+2,2,TrialState.FAIL,,2020-01-05 23:58:06.538121,2020-01-05 23:58:06.727636,1.1437476896069176,lbfgs,LogisticRegression,,2,Setting status of trial#2 as TrialState.FAIL because the objective function returned nan.
+3,3,TrialState.COMPLETE,0.8552378331758421,2020-01-05 23:58:06.539226,2020-01-05 23:58:07.101272,0.20966408348996485,liblinear,LogisticRegression,0.8552378331758421,3,
+4,4,TrialState.FAIL,,2020-01-05 23:58:07.531580,2020-01-05 23:58:07.865750,0.9479803504369789,newton-cg,LogisticRegression,,4,Setting status of trial#4 as TrialState.FAIL because the objective function returned nan.
+5,5,TrialState.FAIL,,2020-01-05 23:58:07.533167,2020-01-05 23:58:07.865369,1.7392099348243453,newton-cg,LogisticRegression,,5,Setting status of trial#5 as TrialState.FAIL because the objective function returned nan.
+6,6,TrialState.COMPLETE,0.8559947050220169,2020-01-05 23:58:07.541502,2020-01-05 23:58:08.177451,4.471484650412303,liblinear,LogisticRegression,0.8559947050220169,6,
+7,7,TrialState.FAIL,,2020-01-05 23:58:07.547904,2020-01-05 23:58:07.988902,4.017836504426097,newton-cg,LogisticRegression,,7,Setting status of trial#7 as TrialState.FAIL because the objective function returned nan.
+8,8,TrialState.FAIL,,2020-01-05 23:58:08.536773,2020-01-05 23:58:08.809806,0.10507566179690735,lbfgs,LogisticRegression,,8,Setting status of trial#8 as TrialState.FAIL because the objective function returned nan.
+9,9,TrialState.FAIL,,2020-01-05 23:58:08.539241,2020-01-05 23:58:08.944869,0.10171647165746538,newton-cg,LogisticRegression,,9,Setting status of trial#9 as TrialState.FAIL because the objective function returned nan.
+10,10,TrialState.FAIL,,2020-01-05 23:58:08.541391,2020-01-05 23:58:08.809466,1.0616405037181287,lbfgs,LogisticRegression,,10,Setting status of trial#10 as TrialState.FAIL because the objective function returned nan.
+11,11,TrialState.FAIL,,2020-01-05 23:58:08.544275,2020-01-05 23:58:09.058953,0.11942632497879388,lbfgs,LogisticRegression,,11,Setting status of trial#11 as TrialState.FAIL because the objective function returned nan.
+12,12,TrialState.FAIL,,2020-01-05 23:58:09.536852,2020-01-05 23:58:09.671380,0.507642370416375,lbfgs,LogisticRegression,,12,Setting status of trial#12 as TrialState.FAIL because the objective function returned nan.
+13,13,TrialState.FAIL,,2020-01-05 23:58:09.539780,2020-01-05 23:58:09.784524,1.0036232537079015,lbfgs,LogisticRegression,,13,Setting status of trial#13 as TrialState.FAIL because the objective function returned nan.
+14,14,TrialState.COMPLETE,0.8563428283160093,2020-01-05 23:58:09.542700,2020-01-05 23:58:10.113334,1.9958831432523132,liblinear,LogisticRegression,0.8563428283160093,14,
+15,15,TrialState.FAIL,,2020-01-05 23:58:09.544321,2020-01-05 23:58:09.931755,0.36345425213077187,newton-cg,LogisticRegression,,15,Setting status of trial#15 as TrialState.FAIL because the objective function returned nan.
+16,16,TrialState.COMPLETE,0.8560485684646271,2020-01-05 23:58:10.537542,2020-01-05 23:58:11.096572,4.136832923424028,liblinear,LogisticRegression,0.8560485684646271,16,
+17,17,TrialState.FAIL,,2020-01-05 23:58:10.540333,2020-01-05 23:58:10.935134,0.10773175888658992,lbfgs,LogisticRegression,,17,Setting status of trial#17 as TrialState.FAIL because the objective function returned nan.
+18,18,TrialState.FAIL,,2020-01-05 23:58:10.542052,2020-01-05 23:58:10.694350,2.2983461651230055,newton-cg,LogisticRegression,,18,Setting status of trial#18 as TrialState.FAIL because the objective function returned nan.
+19,19,TrialState.FAIL,,2020-01-05 23:58:10.542726,2020-01-05 23:58:10.822281,1.2284923398597778,lbfgs,LogisticRegression,,19,Setting status of trial#19 as TrialState.FAIL because the objective function returned nan.
+20,20,TrialState.FAIL,,2020-01-05 23:58:11.538250,2020-01-05 23:58:11.990207,0.8786938620321518,newton-cg,LogisticRegression,,20,Setting status of trial#20 as TrialState.FAIL because the objective function returned nan.
+21,21,TrialState.COMPLETE,0.8562621309175663,2020-01-05 23:58:11.540604,2020-01-05 23:58:12.301761,2.3407230680383218,liblinear,LogisticRegression,0.8562621309175663,21,
+22,22,TrialState.FAIL,,2020-01-05 23:58:11.543064,2020-01-05 23:58:11.685895,0.7432105642996286,newton-cg,LogisticRegression,,22,Setting status of trial#22 as TrialState.FAIL because the objective function returned nan.
+23,23,TrialState.FAIL,,2020-01-05 23:58:11.544947,2020-01-05 23:58:11.868511,0.2450277012044292,lbfgs,LogisticRegression,,23,Setting status of trial#23 as TrialState.FAIL because the objective function returned nan.
+24,24,TrialState.FAIL,,2020-01-05 23:58:12.539253,2020-01-05 23:58:12.925669,1.2335129416328425,newton-cg,LogisticRegression,,24,Setting status of trial#24 as TrialState.FAIL because the objective function returned nan.
+25,25,TrialState.FAIL,,2020-01-05 23:58:12.541711,2020-01-05 23:58:12.749442,0.11909410534984313,lbfgs,LogisticRegression,,25,Setting status of trial#25 as TrialState.FAIL because the objective function returned nan.
+26,26,TrialState.COMPLETE,0.8564490016189963,2020-01-05 23:58:12.546121,2020-01-05 23:58:13.131999,0.959388561309999,liblinear,LogisticRegression,0.8564490016189963,26,
+27,27,TrialState.COMPLETE,0.8554557613015108,2020-01-05 23:58:12.547682,2020-01-05 23:58:13.245939,0.2530153770128698,liblinear,LogisticRegression,0.8554557613015108,27,
+28,28,TrialState.FAIL,,2020-01-05 23:58:13.539709,2020-01-05 23:58:13.737506,0.13232985776407322,newton-cg,LogisticRegression,,28,Setting status of trial#28 as TrialState.FAIL because the objective function returned nan.
+29,29,TrialState.COMPLETE,0.8557760338787581,2020-01-05 23:58:13.542738,2020-01-05 23:58:14.336302,0.27410537061018336,liblinear,LogisticRegression,0.8557760338787581,29,
+30,30,TrialState.FAIL,,2020-01-05 23:58:13.544008,2020-01-05 23:58:13.933174,1.084393787662646,lbfgs,LogisticRegression,,30,Setting status of trial#30 as TrialState.FAIL because the objective function returned nan.
+31,31,TrialState.COMPLETE,0.8554290233335964,2020-01-05 23:58:13.545509,2020-01-05 23:58:14.199661,0.25144636631962675,liblinear,LogisticRegression,0.8554290233335964,31,
+32,32,TrialState.FAIL,,2020-01-05 23:58:14.543429,2020-01-05 23:58:14.962117,1.9964405658857995,newton-cg,LogisticRegression,,32,Setting status of trial#32 as TrialState.FAIL because the objective function returned nan.
+33,33,TrialState.COMPLETE,0.8562858505987159,2020-01-05 23:58:14.547017,2020-01-05 23:58:15.373153,0.37137942322000694,liblinear,LogisticRegression,0.8562858505987159,33,
+34,34,TrialState.FAIL,,2020-01-05 23:58:14.550062,2020-01-05 23:58:14.764352,0.6291022677960844,newton-cg,LogisticRegression,,34,Setting status of trial#34 as TrialState.FAIL because the objective function returned nan.
+35,35,TrialState.FAIL,,2020-01-05 23:58:14.551498,2020-01-05 23:58:15.143514,1.4516327432968117,lbfgs,LogisticRegression,,35,Setting status of trial#35 as TrialState.FAIL because the objective function returned nan.
+36,36,TrialState.FAIL,,2020-01-05 23:58:15.542220,2020-01-05 23:58:15.834608,1.9814093217719468,newton-cg,LogisticRegression,,36,Setting status of trial#36 as TrialState.FAIL because the objective function returned nan.
+37,37,TrialState.FAIL,,2020-01-05 23:58:15.544402,2020-01-05 23:58:15.966981,3.312217353612198,newton-cg,LogisticRegression,,37,Setting status of trial#37 as TrialState.FAIL because the objective function returned nan.
+38,38,TrialState.COMPLETE,0.8559678212946709,2020-01-05 23:58:15.546090,2020-01-05 23:58:16.255746,4.935912512350346,liblinear,LogisticRegression,0.8559678212946709,38,
+39,39,TrialState.FAIL,,2020-01-05 23:58:15.553836,2020-01-05 23:58:16.087579,3.812894292597802,lbfgs,LogisticRegression,,39,Setting status of trial#39 as TrialState.FAIL because the objective function returned nan.
+40,40,TrialState.FAIL,,2020-01-05 23:58:16.547385,2020-01-05 23:58:16.690784,2.0125808754391454,newton-cg,LogisticRegression,,40,Setting status of trial#40 as TrialState.FAIL because the objective function returned nan.
+41,41,TrialState.COMPLETE,0.8559100614535984,2020-01-05 23:58:16.549995,2020-01-05 23:58:17.037712,0.2889746468759545,liblinear,LogisticRegression,0.8559100614535984,41,
+42,42,TrialState.FAIL,,2020-01-05 23:58:16.551582,2020-01-05 23:58:16.818182,0.49247098133493383,newton-cg,LogisticRegression,,42,Setting status of trial#42 as TrialState.FAIL because the objective function returned nan.
+43,43,TrialState.COMPLETE,0.8563677673992324,2020-01-05 23:58:16.554238,2020-01-05 23:58:17.152111,0.6484031319322752,liblinear,LogisticRegression,0.8563677673992324,43,
+44,44,TrialState.FAIL,,2020-01-05 23:58:17.552766,2020-01-05 23:58:17.713816,0.1860344664287383,newton-cg,LogisticRegression,,44,Setting status of trial#44 as TrialState.FAIL because the objective function returned nan.
+45,45,TrialState.COMPLETE,0.8535316408174758,2020-01-05 23:58:17.555319,2020-01-05 23:58:18.157441,0.16255961865644622,liblinear,LogisticRegression,0.8535316408174758,45,
+46,46,TrialState.COMPLETE,0.8562088505126821,2020-01-05 23:58:17.558136,2020-01-05 23:58:18.298960,2.9025782313612494,liblinear,LogisticRegression,0.8562088505126821,46,
+47,47,TrialState.FAIL,,2020-01-05 23:58:17.559455,2020-01-05 23:58:17.887033,0.33956991133535186,lbfgs,LogisticRegression,,47,Setting status of trial#47 as TrialState.FAIL because the objective function returned nan.
+48,48,TrialState.COMPLETE,0.8564484683527833,2020-01-05 23:58:18.555812,2020-01-05 23:58:18.876103,0.9971943966684627,liblinear,LogisticRegression,0.8564484683527833,48,
+49,49,TrialState.COMPLETE,0.8561817250379864,2020-01-05 23:58:18.558351,2020-01-05 23:58:19.001504,3.3628190201385486,liblinear,LogisticRegression,0.8561817250379864,49,

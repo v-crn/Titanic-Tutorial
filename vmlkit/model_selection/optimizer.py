@@ -8,15 +8,16 @@ Optimization
 
 
 def optimize(models, params, X, y,
+             model_feature_select=None,
              max_n_features=None,
              scoring='roc_auc',
              direction='maximize',
              n_trials_select=20,
              n_trials_tune=20,
              timeout=None, n_jobs=-1,
-             path_model_init=None,
-             path_model_params_init=None,
-             path_log_tuneup_init=None,
+             path_model_feature_select=None,
+             path_model_params_feature_select=None,
+             path_log_tuneup_feature_select=None,
              path_model=None,
              path_model_params=None,
              path_log_tuneup=None,
@@ -25,22 +26,23 @@ def optimize(models, params, X, y,
     """
     1. Initial tuneup
     """
-    best_model_init = tuneup(models=models, params=params,
-                             X=X, y=y,
-                             direction=direction,
-                             scoring=scoring,
-                             n_trials=n_trials_tune,
-                             timeout=timeout,
-                             n_jobs=n_jobs,
-                             path_model=path_model_init,
-                             path_model_params=path_model_params_init,
-                             path_log_tuneup=path_log_tuneup_init)
+    if model_feature_select is None:
+        model_feature_select = tuneup(models=models, params=params,
+                                      X=X, y=y,
+                                      direction=direction,
+                                      scoring=scoring,
+                                      n_trials=n_trials_tune,
+                                      timeout=timeout,
+                                      n_jobs=n_jobs,
+                                      path_model=path_model_feature_select,
+                                      path_model_params=path_model_params_init,
+                                      path_log_tuneup=path_log_tuneup_init)
 
     """
     2. Optimize features number
     """
     selected_features = optimize_features(
-        model=best_model_init, X=X, y=y,
+        model=model_feature_select, X=X, y=y,
         max_n_features=max_n_features,
         n_trials=n_trials_select,
         direction=direction, scoring=scoring,

@@ -8,11 +8,16 @@ from config import (SCORING,
                     IS_UNDER_SAMPLING,
                     N_TRIALS_SELECT,
                     N_TRIALS_TUNE,
-                    RANDOM_STATE)
+                    RANDOM_STATE,
+                    N_CV_SPLITS,
+                    TEST_SIZE_RATIO)
 from vmlkit import utility as utl
 from vmlkit.model_selection.optimizer import optimize
+from vmlkit import visualizer as viz
 
+import joblib
 from ulid import ulid
+import pandas as pd
 from imblearn.ensemble import BalancedBaggingClassifier
 from sklearn.linear_model import LogisticRegression
 
@@ -34,11 +39,18 @@ def main():
     PATH_LOG_OPT_FEATURES\
         = PATH_TRIAL_FOLDER_ULID + 'log_optimize_features.csv'
     PATH_LOG_TUNEUP = PATH_TRIAL_FOLDER_ULID + 'log_tuneup.csv'
-    PATH_LOG_TUNEUP_INIT = PATH_TRIAL_FOLDER_ULID + 'log_tuneup_init.csv'
-    PATH_MODEL = PATH_TRIAL_FOLDER_ULID + 'model.pkl'
-    PATH_MODEL_INIT = PATH_TRIAL_FOLDER_ULID + 'model_init.pkl'
+    PATH_LOG_TUNEUP_FEATURE_SELECT\
+        = PATH_TRIAL_FOLDER_ULID + 'log_tuneup_feature_select.csv'
+    PATH_MODEL = PATH_TRIAL_FOLDER_ULID + 'model.joblib'
+    PATH_MODEL_FEATURE_SELECT\
+        = PATH_TRIAL_FOLDER_ULID + 'model_feature_select.joblib'
     PATH_MODEL_PARAMS = PATH_TRIAL_FOLDER_ULID + 'model_params.txt'
-    PATH_MODEL_PARAMS_INIT = PATH_TRIAL_FOLDER_ULID + 'model_params_init.txt'
+    PATH_MODEL_PARAMS_FEATURE_SELECT\
+        = PATH_TRIAL_FOLDER_ULID + 'model_params_feature_select.txt'
+    PATH_ROC_CURVE = PATH_TRIAL_FOLDER_ULID + 'roc_curve.png'
+
+    model_feature_select = LogisticRegression(
+        C=0.5612715259596806, penalty='l1', solver='liblinear', n_jobs=-1)
 
     models = {
         'LogisticRegression': LogisticRegression,
@@ -56,7 +68,7 @@ def main():
     }
 
     if IS_UNDER_SAMPLING:
-        base_model = LogisticRegression()
+        base_model = model_feature_select
 
         models = {
             'BalancedBaggingClassifier': BalancedBaggingClassifier
@@ -73,28 +85,44 @@ def main():
         }
 
     # Loading preprocessed data
-    train_prp = utl.load(PATH_TRAIN_PRP)
+    train_prp = joblib.load(PATH_TRAIN_PRP)
     y_prp = train_prp[TARGET_COLUMN]
     X_prp = utl.except_for(train_prp, TARGET_COLUMN)
 
     max_n_features = RATIO_MAX_N_FEATURES * X_prp.shape[1]
 
     # Optimization
-    optimize(models=models, params=params, X=X_prp, y=y_prp,
-             max_n_features=max_n_features,
-             scoring=SCORING,
-             direction=DIRECTION,
-             n_trials_select=N_TRIALS_SELECT,
-             n_trials_tune=N_TRIALS_TUNE,
-             timeout=TIMEOUT, n_jobs=-1,
-             path_model_init=PATH_MODEL_INIT,
-             path_model_params_init=PATH_MODEL_PARAMS_INIT,
-             path_log_tuneup_init=PATH_LOG_TUNEUP_INIT,
-             path_model=PATH_MODEL,
-             path_model_params=PATH_MODEL_PARAMS,
-             path_log_tuneup=PATH_LOG_TUNEUP,
-             path_features_opt=PATH_FEATURES_OPT,
-             path_log_opt_features=PATH_LOG_OPT_FEATURES)
+    model_optimized\
+        = optimize(
+            models=models, params=params, X=X_prp, y=y_prp,
+            model_feature_select=model_feature_select,
+            max_n_features=max_n_features,
+            scoring=SCORING,
+            direction=DIRECTION,
+            n_trials_select=N_TRIALS_SELECT,
+            n_trials_tune=N_TRIALS_TUNE,
+            timeout=TIMEOUT, n_jobs=-1,
+            path_model_feature_select=PATH_MODEL_FEATURE_SELECT,
+            path_model_params_feature_select=PATH_MODEL_PARAMS_FEATURE_SELECT,
+            path_log_tuneup_feature_select=PATH_LOG_TUNEUP_FEATURE_SELECT,
+            path_model=PATH_MODEL,
+            path_model_params=PATH_MODEL_PARAMS,
+            path_log_tuneup=PATH_LOG_TUNEUP,
+            path_features_opt=PATH_FEATURES_OPT,
+            path_log_opt_features=PATH_LOG_OPT_FEATURES)
+
+    """
+    Plot ROC curve
+    """
+    selected_features = list(pd.read_csv(PATH_FEATURES_OPT))
+    X_prp_slc = X_prp[selected_features]
+
+    with utl.timer('Plot ROC curve'):
+        viz.plot_roc_curve_with_cv(
+            model_optimized, X_prp_slc, y_prp,
+            cv='StratifiedKFold', n_splits=N_CV_SPLITS,
+            test_size_ratio=TEST_SIZE_RATIO,
+            savepath=PATH_ROC_CURVE)
 
 
 if __name__ == '__main__':

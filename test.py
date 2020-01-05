@@ -4,6 +4,8 @@ from config import (PATH_TRAIN_PRP,
                     TEST_ID,
                     PATH_TRIAL_FOLDER)
 from vmlkit import utility as utl
+
+import joblib
 import pandas as pd
 
 
@@ -17,24 +19,25 @@ def main():
     1. Loading the model
     """
     # ULID Path
-    ULID = '01DXRFYZCKPE15V12VKPDG3TCD'
+    ULID = '01DXV6D7E31THVKV8QQ7PGYGW5'
 
     # Mutable Paths
     PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'
     PATH_FEATURES_OPT = PATH_TRIAL_FOLDER_ULID + 'optimized_features.csv'
-    PATH_MODEL = PATH_TRIAL_FOLDER_ULID + 'model.pkl'
+    PATH_MODEL = PATH_TRIAL_FOLDER_ULID + 'model.joblib'
     PATH_SUBMIT = PATH_TRIAL_FOLDER_ULID + 'submit.csv'
 
     # Loading
-    model = utl.load(PATH_MODEL)
+    model = joblib.load(PATH_MODEL)
 
-    train_prp = utl.load(PATH_TRAIN_PRP)
+    train_prp = joblib.load(PATH_TRAIN_PRP)
     y_prp = train_prp[TARGET_COLUMN]
     X_prp = utl.except_for(train_prp, TARGET_COLUMN)
-    selected_features = utl.load(PATH_FEATURES_OPT, return_list=True)
+    selected_features = list(pd.read_csv(PATH_FEATURES_OPT))
+
     X_prp_slc = X_prp[selected_features]
 
-    X_test_prp = utl.load(PATH_TEST_PRP)
+    X_test_prp = joblib.load(PATH_TEST_PRP)
     X_test_prp_slc = X_test_prp[selected_features]
 
     """
@@ -48,6 +51,7 @@ def main():
         TEST_ID: X_test_prp[TEST_ID],
         TARGET_COLUMN: y_pred
     })
+    print('Prediction\n', df_prediction.head())
 
     with open(PATH_SUBMIT, 'w', encoding='utf-8-sig') as f:
         df_prediction.to_csv(f, index=False)

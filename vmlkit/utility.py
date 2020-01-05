@@ -70,11 +70,11 @@ def mkdir(path):
     os.mkdir(path)
 
 
-def load(path, return_list=False):
-    if return_list:
-        return list(pd.read_csv(path))
+# def load(path, return_list=False):
+#     if return_list:
+#         return list(pd.read_csv(path))
 
-    return pd.read_csv(path)
+#     return pd.read_csv(path)
 
 
 def load_csv_and_save_pkl(filepath, save=True):
@@ -105,7 +105,7 @@ def save(obj, path, compress=3):
     if isinstance(obj, pd.DataFrame):
         return obj.to_csv(path)
 
-    if '.pkl' not in path:
+    if '.joblib' not in path:
         with open(path, 'w') as f:
             writer = csv.writer(f, lineterminator='\n')
             return writer.writerow(obj)
@@ -143,16 +143,16 @@ def write_dict_as_csv(file, save_dict):
         w.writerow(file)
 
 
-def save_with_ulid(obj, savepath, ext='.pkl', compress=3):
+def save_with_ulid(obj, savepath, ext='.joblib', compress=3):
     """
     Ex:
         parent = 'workfolder/filename_'
-        ext = '.pkl'
-    -> 'workfolder/filename_2989bc46-7263-44c1-9fe7-e9cd475a511f.pkl'
+        ext = '.joblib'
+    -> 'workfolder/filename_2989bc46-7263-44c1-9fe7-e9cd475a511f.joblib'
     """
     unq_id = ulid()
-    if '.pkl' in savepath:
-        savepath = savepath.replace('.pkl', '_')
+    if '.joblib' in savepath:
+        savepath = savepath.replace('.joblib', '_')
     joblib.dump(obj, savepath + unq_id + ext, compress=compress)
 
 
@@ -160,16 +160,16 @@ class save_with_same_ulid:
     """
     Ex:
         parent = 'workfolder/filename_'
-        ext = '.pkl'
-    -> 'workfolder/filename_2989bc46-7263-44c1-9fe7-e9cd475a511f.pkl'
+        ext = '.joblib'
+    -> 'workfolder/filename_2989bc46-7263-44c1-9fe7-e9cd475a511f.joblib'
     """
 
     def __init__(self):
         self.unq_id = ulid()
 
-    def __call__(self, obj, savepath, ext='.pkl', compress=3):
-        if '.pkl' in savepath:
-            savepath = savepath.replace('.pkl', '_')
+    def __call__(self, obj, savepath, ext='.joblib', compress=3):
+        if '.joblib' in savepath:
+            savepath = savepath.replace('.joblib', '_')
         unq_id = self.unq_id
         return joblib.dump(obj, savepath + unq_id + ext, compress=compress)
 
@@ -178,9 +178,9 @@ class create_same_ulid_path:
     def __init__(self):
         self.unq_id = ulid()
 
-    def __call__(self, savepath, ext='.pkl'):
-        if '.pkl' in savepath:
-            savepath = savepath.replace('.pkl', '_')
+    def __call__(self, savepath, ext='.joblib'):
+        if '.joblib' in savepath:
+            savepath = savepath.replace('.joblib', '_')
         return savepath + self.unq_id + ext
 
 

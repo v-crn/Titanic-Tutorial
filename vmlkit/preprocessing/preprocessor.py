@@ -2,6 +2,8 @@ from vmlkit import utility as utl
 from vmlkit.preprocessing import cleaner as cln
 from vmlkit.preprocessing import scaler
 from vmlkit.preprocessing import encoder as enc
+
+import joblib
 import pandas as pd
 
 
@@ -17,7 +19,7 @@ class Preprocessor():
             dropped_features=None, thresh_drop=4,
             thresh_corr=0.95,
             alt_num='mean', alt_cat='mode',
-            savepath='train_prp.pkl'):
+            path_train_prp='train_prp.joblib'):
         print('Shape before preprocessing:\n', df.shape)
 
         # Exclude specified features from preprocessing
@@ -59,8 +61,8 @@ class Preprocessor():
         df = pd.concat([df[cols_exclusive], df_], axis=1)
         print('\nShape after preprocessing:\n', df.shape)
 
-        if savepath:
-            utl.save(df, savepath)
+        if path_train_prp:
+            joblib.dump(df, path_train_prp, compress=3)
 
         return df
 
@@ -68,7 +70,7 @@ class Preprocessor():
                  exclusive_features=None,
                  alt_num='mean', alt_cat='mode',
                  save=True,
-                 savepath='test_prp.pkl'):
+                 path_test_prp='test_prp.joblib'):
         print('Shape before preprocessing:\n', df.shape)
 
         # Exclude specified features from preprocessing
@@ -97,8 +99,8 @@ class Preprocessor():
         df = pd.concat([df[cols_exclusive], df_], axis=1)
         print('\nShape after preprocessing:\n', df.shape)
 
-        if save:
-            utl.save(df, savepath)
+        if path_test_prp:
+            joblib.dump(df, path_test_prp, compress=3)
 
         return df
 
@@ -106,8 +108,7 @@ class Preprocessor():
                          dropped_features=None, thresh_drop=4,
                          thresh_corr=0.95,
                          alt_num='mean', alt_cat='mode',
-                         save=True,
-                         savepath='preprocessed_list.pkl'):
+                         path_prp_list=None):
         isnt_list = False
         if not isinstance(df_list, list):
             df_list = [df_list]
@@ -149,7 +150,7 @@ class Preprocessor():
 
         if isnt_list:
             df_list = df_list[0]
-        if save:
-            utl.save(df_list, savepath)
+        if path_prp_list:
+            joblib.dump(df_list, path_prp_list, compress=3)
 
         return df_list

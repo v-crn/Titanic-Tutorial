@@ -1,5 +1,4 @@
-from vmlkit import utility as utl
-
+import joblib
 import codecs
 import optuna
 from sklearn.model_selection import StratifiedKFold, cross_validate
@@ -20,7 +19,7 @@ def tuneup(models, params,
         - log: a uniform float sampling on log scale. ex: ('log', 最小値, 最大値)
         - dis: a discretized uniform float sampling. ex: ('dis', 最小値, 最大値, 間隔)
         - cat: category. ex: ('cat', (文字列１, 文字列２, 文字列３, ))
-        
+
     if you set constant value, write as follows:
         - 'parameter name': value
     """
@@ -63,7 +62,7 @@ def tuneup(models, params,
 class Objective:
     def __init__(self, models, params, X, y, scoring,
                  direction='maximize',
-                 savepath='best_model.pkl'):
+                 savepath='best_model.joblib'):
         self.best_model = None
         self.best_score = 0 if direction == 'maximize' else 1
         self.direction = direction
@@ -118,6 +117,6 @@ class Objective:
             self.best_score = score
             self.best_model = model
             if savepath:
-                utl.save(model, savepath)
+                joblib.dump(model, savepath, compress=3)
 
         return score

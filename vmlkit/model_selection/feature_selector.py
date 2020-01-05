@@ -1,6 +1,7 @@
 
 from vmlkit import utility as utl
 
+import csv
 import optuna
 import numpy as np
 from sklearn.feature_selection import RFE
@@ -20,7 +21,7 @@ def select_features_by_rfe(model, X, y, ratio_max_n_features=0.5,
     selected_features = utl.get_columns(X_selected)
 
     if path_features_opt:
-        utl.save(selected_features, path_features_opt)
+        selected_features.to_csv(path_features_opt)
 
     return selected_features
 
@@ -115,6 +116,8 @@ class Objective():
             self.best_score = score
             self.best_features = selected_features
             if path_features_opt:
-                utl.save(selected_features, path_features_opt)
+                with open(path_features_opt, 'w') as f:
+                    writer = csv.writer(f, lineterminator='\n')
+                    writer.writerow(selected_features)
 
         return score
