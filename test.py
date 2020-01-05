@@ -10,18 +10,13 @@ import joblib
 import pandas as pd
 
 
-"""
-3. Test
-"""
-
-
 def main():
     """
     1. Loading the model
     """
     # ULID Path
     for line in open(PATH_ULID):
-        ULID = line
+        ULID = line.replace('\n', '')
     print('ULID:', ULID)
 
     # Mutable Paths

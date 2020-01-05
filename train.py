@@ -30,7 +30,7 @@ def main():
 
     # ULID Path
     for line in open(PATH_ULID):
-        ULID = line
+        ULID = line.replace('\n', '')
     print('ULID:', ULID)
 
     PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'
