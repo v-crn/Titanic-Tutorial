@@ -10,13 +10,15 @@ from config import (SCORING,
                     N_TRIALS_TUNE,
                     RANDOM_STATE,
                     N_CV_SPLITS,
-                    TEST_SIZE_RATIO)
+                    TEST_SIZE_RATIO,
+                    PATH_ULID)
 from vmlkit import utility as utl
 from vmlkit.model_selection.optimizer import optimize
 from vmlkit import visualizer as viz
 
 import joblib
 from ulid import ulid
+import codecs
 import pandas as pd
 from imblearn.ensemble import BalancedBaggingClassifier
 from sklearn.linear_model import LogisticRegression
@@ -29,6 +31,8 @@ def main():
 
     # Make a directory with ulid per each trial unit
     ULID = ulid()
+    print(ULID, file=codecs.open(PATH_ULID, 'w', 'utf-8'))
+
     PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'
 
     if not utl.exists_dir(PATH_TRIAL_FOLDER_ULID):

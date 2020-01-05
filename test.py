@@ -1,5 +1,6 @@
 from config import (PATH_TRAIN_PRP,
                     PATH_TEST_PRP,
+                    PATH_ULID,
                     TARGET_COLUMN,
                     TEST_ID,
                     PATH_TRIAL_FOLDER)
@@ -19,7 +20,9 @@ def main():
     1. Loading the model
     """
     # ULID Path
-    ULID = '01DXV6D7E31THVKV8QQ7PGYGW5'
+    for line in open(PATH_ULID):
+        ULID = line
+    print('ULID:', ULID)
 
     # Mutable Paths
     PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'

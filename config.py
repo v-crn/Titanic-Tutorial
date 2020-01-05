@@ -42,6 +42,7 @@ RANDOM_STATE = 42
 # Path
 PATH_ROOT = './ML/Kaggle/Titanic/'
 PATH_DATA_FOLDER = PATH_ROOT + 'data/'
+PATH_ULID = PATH_ROOT + 'ulid.txt'
 
 PATH_TRAIN = PATH_DATA_FOLDER + 'train.csv'
 PATH_TEST = PATH_DATA_FOLDER + 'test.csv'

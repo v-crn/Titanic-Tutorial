@@ -2,6 +2,7 @@ from config import (SCORING,
                     TARGET_COLUMN,
                     PATH_TRAIN_PRP,
                     PATH_TRIAL_FOLDER,
+                    PATH_ULID,
                     TEST_SIZE_RATIO,
                     DIRECTION,
                     N_TRIALS_TUNE,
@@ -27,9 +28,11 @@ def main():
     if not utl.exists_dir(PATH_TRIAL_FOLDER):
         utl.mkdir(PATH_TRIAL_FOLDER)
 
-    # Make a directory with ulid per each trial unit
-    # ULID = ulid()
-    ULID = '01DXV3D5HPCNN2JMB9W1VE52C5'
+    # ULID Path
+    for line in open(PATH_ULID):
+        ULID = line
+    print('ULID:', ULID)
+
     PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'
 
     if not utl.exists_dir(PATH_TRIAL_FOLDER_ULID):
