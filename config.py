@@ -24,14 +24,14 @@ TEST_ID = 'PassengerId'
 EXCLUSIVE_FEATURES = [TEST_ID, TARGET_COLUMN]
 
 # Under Sampling
-IS_UNDER_SAMPLING = True
+IS_UNDER_SAMPLING = False
 
 # Feature Selection
 RATIO_MAX_N_FEATURES = 1.0
 N_TRIALS_SELECT = 20
 
 # Optimization
-N_TRIALS_TUNE = 20
+N_TRIALS_TUNE = 50
 TIMEOUT = None
 
 # CV
@@ -50,6 +50,7 @@ PATH_TRAIN_PKL = PATH_DATA_FOLDER + 'train.pkl'
 PATH_TEST_PKL = PATH_DATA_FOLDER + 'test.pkl'
 
 PATH_TRAIN_PRP = PATH_DATA_FOLDER + 'train_ppr_' + CAT_ENCODER + '.pkl'
+# PATH_TRAIN_PRP = PATH_DATA_FOLDER + 'train_prp.pkl'
 PATH_TEST_PRP = PATH_DATA_FOLDER + 'test_ppr_' + CAT_ENCODER + '.pkl'
 
 PATH_PROFILE_REPORT = PATH_DATA_FOLDER + 'profile_report.html'

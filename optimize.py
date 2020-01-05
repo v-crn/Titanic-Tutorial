@@ -17,19 +17,13 @@ from imblearn.ensemble import BalancedBaggingClassifier
 from sklearn.linear_model import LogisticRegression
 
 
-"""
-Optimization
-"""
-
-
 def main():
     # Make a directory for training model
     if not utl.exists_dir(PATH_TRIAL_FOLDER):
         utl.mkdir(PATH_TRIAL_FOLDER)
 
     # Make a directory with ulid per each trial unit
-    # ULID = ulid()
-    ULID = '01DXTS20N9T09VMN82N0EYRGAR'
+    ULID = ulid()
     PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'
 
     if not utl.exists_dir(PATH_TRIAL_FOLDER_ULID):

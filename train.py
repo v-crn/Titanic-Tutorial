@@ -20,11 +20,6 @@ from sklearn.linear_model import LogisticRegression
 # from sklearn.neighbors import KNeighborsClassifier
 
 
-"""
-2. Training
-"""
-
-
 def main():
     # Make a directory for training model
     if not utl.exists_dir(PATH_TRIAL_FOLDER):
@@ -32,7 +27,7 @@ def main():
 
     # Make a directory with ulid per each trial unit
     # ULID = ulid()
-    ULID = '01DXTS20N9T09VMN82N0EYRGAR'
+    ULID = '01DXTWADP25B83FR6NPP5ENNTP'
     PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'
 
     if not utl.exists_dir(PATH_TRIAL_FOLDER_ULID):
@@ -59,20 +54,6 @@ def main():
     selected_features = utl.load(PATH_FEATURES_OPT, return_list=True)
     X_prp_slc = X_prp[selected_features]
 
-    # model = utl.load(PATH_MODEL) if utl.exists(PATH_MODEL)\
-    #     else LogisticRegression(C=2.9367848890531003, class_weight='balanced',
-    #                             dual=False,
-    #                             fit_intercept=True, intercept_scaling=1,
-    #                             l1_ratio=0.1613481865398583, max_iter=100,
-    #                             multi_class='auto', n_jobs=-1, penalty='l2',
-    #                             random_state=None, solver='lbfgs', tol=0.0001,
-    #                             verbose=0, warm_start=False)
-
-    # model = KNeighborsClassifier(n_neighbors=5, weights='uniform',
-    #                              algorithm='auto', leaf_size=30,
-    #                              p=2, metric='minkowski',
-    #                              metric_params=None, n_jobs=-1)
-
     # Case 1: Basic
     if not IS_UNDER_SAMPLING:
         # Tuning Parameters
@@ -83,20 +64,12 @@ def main():
             # 'kneighbor': KNeighborsClassifier,
         }
 
-        # 指定したモデルに設定するハイパーパラメータ名と値の型と範囲の指定
-        # 定数の場合はtupleに入れずにそのままvalueに指定する
-        # 型の意味と範囲指定の形式：
-        #    - int: integer. ex: ('int', 最小値, 最大値)
-        #    - uni: a uniform float sampling. ex: ('uni', 最小値, 最大値)
-        #    - log: a uniform float sampling on log scale. ex: ('log', 最小値, 最大値)
-        #    - dis: a discretized uniform float sampling. ex: ('dis', 最小値, 最大値, 間隔)
-        #    - cat: category. ex: ('cat', (文字列１, 文字列２, 文字列３, ))
         params = {
             'LogisticRegression': {
-                'penalty': ('cat', ('none', 'l1', 'l2', 'elasticnet')),
+                'penalty': 'l1',
                 'C': ('log', 0.1, 5),
                 'class_weight': 'balanced',
-                'solver': ('cat', ('newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga')),
+                'solver': ('cat', ('newton-cg', 'lbfgs', 'liblinear')),
                 'n_jobs': -1,
                 'random_state': RANDOM_STATE
             },
@@ -134,7 +107,7 @@ def main():
         params = {
             'BalancedBaggingClassifier': {
                 'base_estimator': base_model,
-                'n_estimators': ('int', 45, 55),
+                'n_estimators': ('int', 45, 60),
                 'n_jobs': -1,
                 'sampling_strategy': 'auto',
                 'random_state': RANDOM_STATE,
