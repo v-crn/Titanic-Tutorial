@@ -68,7 +68,7 @@ def main():
                 'penalty': 'l1',
                 'C': ('log', 0.1, 5),
                 'class_weight': 'balanced',
-                'solver': ('cat', ('newton-cg', 'lbfgs', 'liblinear')),
+                'solver': 'lbfgs',
                 'n_jobs': -1,
                 'random_state': RANDOM_STATE
             },
@@ -93,7 +93,7 @@ def main():
         params = {
             'BalancedBaggingClassifier': {
                 'base_estimator': base_model,
-                'n_estimators': ('int', 45, 60),
+                'n_estimators': 10,
                 'n_jobs': -1,
                 'sampling_strategy': 'auto',
                 'random_state': RANDOM_STATE,
@@ -106,6 +106,9 @@ def main():
                             X=X_prp_slc, y=y_prp,
                             scoring=SCORING,
                             direction=DIRECTION,
+                            cv='StratifiedKFold',
+                            n_splits=N_CV_SPLITS,
+                            random_state=RANDOM_STATE,
                             n_trials=N_TRIALS_TUNE,
                             timeout=TIMEOUT,
                             n_jobs=-1,

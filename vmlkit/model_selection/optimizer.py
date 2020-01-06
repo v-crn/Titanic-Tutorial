@@ -12,6 +12,9 @@ def optimize(models, params, X, y,
              max_n_features=None,
              scoring='roc_auc',
              direction='maximize',
+             cv='StratifiedKFold',
+             n_splits=5,
+             random_state=42,
              n_trials_select=20,
              n_trials_tune=20,
              timeout=None, n_jobs=-1,
@@ -27,16 +30,20 @@ def optimize(models, params, X, y,
     1. Initial tuneup
     """
     if model_feature_select is None:
-        model_feature_select = tuneup(models=models, params=params,
-                                      X=X, y=y,
-                                      direction=direction,
-                                      scoring=scoring,
-                                      n_trials=n_trials_tune,
-                                      timeout=timeout,
-                                      n_jobs=n_jobs,
-                                      path_model=path_model_feature_select,
-                                      path_model_params=path_model_params_init,
-                                      path_log_tuneup=path_log_tuneup_init)
+        model_feature_select\
+            = tuneup(models=models, params=params,
+                     X=X, y=y,
+                     scoring=scoring,
+                     direction=direction,
+                     cv=cv,
+                     n_splits=n_splits,
+                     random_state=random_state,
+                     n_trials=n_trials_tune,
+                     timeout=timeout,
+                     n_jobs=n_jobs,
+                     path_model=path_model_feature_select,
+                     path_model_params=path_model_params_feature_select,
+                     path_log_tuneup=path_log_tuneup_feature_select)
 
     """
     2. Optimize features number
@@ -47,6 +54,9 @@ def optimize(models, params, X, y,
         n_trials=n_trials_select,
         direction=direction, scoring=scoring,
         timeout=timeout,
+        cv='StratifiedKFold',
+        n_splits=n_splits,
+        random_state=random_state,
         path_features_opt=path_features_opt,
         path_log_opt_features=path_log_opt_features)
 
@@ -57,8 +67,11 @@ def optimize(models, params, X, y,
     """
     best_model = tuneup(models=models, params=params,
                         X=X_slc, y=y,
-                        direction=direction,
                         scoring=scoring,
+                        direction=direction,
+                        cv=cv,
+                        n_splits=n_splits,
+                        random_state=random_state,
                         n_trials=n_trials_tune,
                         timeout=timeout,
                         n_jobs=n_jobs,

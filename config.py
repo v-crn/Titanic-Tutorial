@@ -24,7 +24,7 @@ TEST_ID = 'PassengerId'
 EXCLUSIVE_FEATURES = [TEST_ID, TARGET_COLUMN]
 
 # Under Sampling
-IS_UNDER_SAMPLING = False
+IS_UNDER_SAMPLING = True
 
 # Feature Selection
 RATIO_MAX_N_FEATURES = 1.0
@@ -32,10 +32,10 @@ N_TRIALS_SELECT = 10
 
 # Optimization
 N_TRIALS_TUNE = 10
-TIMEOUT = None
+TIMEOUT = 60
 
 # CV
-N_CV_SPLITS = 5
+N_CV_SPLITS = 3
 TEST_SIZE_RATIO = 0.2
 RANDOM_STATE = 42
 
@@ -48,7 +48,6 @@ PATH_TRAIN = PATH_DATA_FOLDER + 'train.csv'
 PATH_TEST = PATH_DATA_FOLDER + 'test.csv'
 
 PATH_TRAIN_PRP = PATH_DATA_FOLDER + 'train_ppr_' + CAT_ENCODER + '.joblib'
-# PATH_TRAIN_PRP = PATH_DATA_FOLDER + 'train_prp.joblib'
 PATH_TEST_PRP = PATH_DATA_FOLDER + 'test_ppr_' + CAT_ENCODER + '.joblib'
 
 PATH_PROFILE_REPORT = PATH_DATA_FOLDER + 'profile_report.html'

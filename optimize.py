@@ -54,7 +54,8 @@ def main():
     PATH_ROC_CURVE = PATH_TRIAL_FOLDER_ULID + 'roc_curve.png'
 
     model_feature_select = LogisticRegression(
-        C=0.5612715259596806, penalty='l1', solver='liblinear', n_jobs=-1)
+        C=1.0, penalty='l1', class_weight='balanced',
+        solver='liblinear', n_jobs=-1)
 
     models = {
         'LogisticRegression': LogisticRegression,
@@ -65,7 +66,7 @@ def main():
             'penalty': 'l1',
             'C': ('log', 0.1, 5),
             'class_weight': 'balanced',
-            'solver': ('cat', ('newton-cg', 'lbfgs', 'liblinear')),
+            'solver': 'lbfgs',
             'n_jobs': -1,
             'random_state': RANDOM_STATE
         },
@@ -81,7 +82,7 @@ def main():
         params = {
             'BalancedBaggingClassifier': {
                 'base_estimator': base_model,
-                'n_estimators': ('int', 45, 55),
+                'n_estimators': 10,
                 'n_jobs': -1,
                 'sampling_strategy': 'auto',
                 'random_state': RANDOM_STATE,
@@ -103,6 +104,8 @@ def main():
             max_n_features=max_n_features,
             scoring=SCORING,
             direction=DIRECTION,
+            cv='StratifiedKFold',
+            n_splits=N_CV_SPLITS,
             n_trials_select=N_TRIALS_SELECT,
             n_trials_tune=N_TRIALS_TUNE,
             timeout=TIMEOUT, n_jobs=-1,

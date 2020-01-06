@@ -1,3 +1,5 @@
+from vmlkit import validator
+
 import joblib
 import codecs
 import optuna
@@ -8,6 +10,7 @@ def tuneup(models, params,
            X, y, direction='maximize',
            scoring='roc_auc', n_trials=20,
            timeout=None,
+           cv=None, n_splits=5, random_state=42, n_repeats=10,
            n_jobs=-1,
            path_model=None,
            path_model_params=None,
@@ -26,6 +29,8 @@ def tuneup(models, params,
     objective = Objective(
         models=models, params=params, X=X, y=y,
         direction=direction, scoring=scoring,
+        cv=cv, n_splits=n_splits, random_state=random_state,
+        n_repeats=n_repeats,
         savepath=path_model)
 
     study = optuna.create_study(
@@ -62,7 +67,8 @@ def tuneup(models, params,
 class Objective:
     def __init__(self, models, params, X, y, scoring,
                  direction='maximize',
-                 savepath='best_model.joblib'):
+                 cv=None, n_splits=5, random_state=42, n_repeats=10,
+                 savepath=None):
         self.best_model = None
         self.best_score = 0 if direction == 'maximize' else 1
         self.direction = direction
@@ -72,6 +78,18 @@ class Objective:
         self.models = models
         self.params = params
         self.scoring = scoring
+
+        if cv is None:
+            cv = StratifiedKFold(
+                n_splits=5, random_state=42, shuffle=True)
+
+        if type(cv) is str:
+            cv = validator.get_cv(cv, n_splits=n_splits, test_size_ratio=0.2,
+                                  n_repeats=n_repeats,
+                                  random_state=random_state, shuffle=True)
+
+        self.cv = cv
+
         self.model_names = list(models)
         self.method_names = {
             'int': 'suggest_int',
@@ -102,10 +120,10 @@ class Objective:
             for key, val in self.model_params.get(model_name).items()
         }
         model = self.models.get(model_name)(**params)
-        skf = StratifiedKFold(n_splits=5, random_state=2019, shuffle=True)
+
         cv_result = cross_validate(model, X, y,
                                    scoring=self.scoring,
-                                   cv=skf, return_estimator=False)
+                                   cv=self.cv, return_estimator=False)
         score = cv_result['test_score'].mean()
 
         # Score Log

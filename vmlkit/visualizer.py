@@ -1,4 +1,4 @@
-from vmlkit import utility as utl
+from vmlkit import validator
 
 import numpy as np
 from scipy import interp
@@ -6,13 +6,7 @@ import pandas_profiling as pdp
 from IPython.display import HTML
 from sklearn.metrics import auc
 from sklearn.metrics import plot_roc_curve
-from sklearn.model_selection import (StratifiedKFold,
-                                     ShuffleSplit,
-                                     TimeSeriesSplit,
-                                     GroupShuffleSplit,
-                                     GroupKFold,
-                                     RepeatedKFold,
-                                     RepeatedStratifiedKFold)
+from sklearn.model_selection import StratifiedKFold
 import matplotlib.pyplot as plt
 
 
@@ -51,32 +45,14 @@ def plot_roc_curve_with_cv(model, X, y, cv=None, n_splits=5,
     aucs = []
     mean_fpr = np.linspace(0, 1, 100)
 
-    if type(cv) is str:
-        if cv == 'ShuffleSplit':
-            cv = ShuffleSplit(n_splits=n_splits, test_size=test_size_ratio,
-                              train_size=None, random_state=random_state)
-        elif cv == 'TimeSeriesSplit':
-            cv = TimeSeriesSplit(n_splits=n_splits, max_train_size=None)
-        elif cv == 'GroupShuffleSplit':
-            cv = GroupShuffleSplit(n_splits=n_splits,
-                                   test_size=test_size_ratio,
-                                   train_size=None, random_state=random_state)
-        elif cv == 'GroupKFold':
-            cv = GroupKFold(n_splits=n_splits)
-        elif cv == 'RepeatedKFold':
-            cv = RepeatedKFold(n_splits=n_splits,
-                               n_repeats=n_repeats, random_state=random_state)
-        elif cv == 'RepeatedStratifiedKFold':
-            cv = RepeatedStratifiedKFold(
-                n_splits=n_splits, n_repeats=n_repeats,
-                random_state=random_state)
-        else:
-            cv = StratifiedKFold(
-                n_splits=n_splits, random_state=random_state, shuffle=True)
-
     if cv is None:
         cv = StratifiedKFold(
             n_splits=n_splits, random_state=random_state, shuffle=True)
+
+    if type(cv) is str:
+        cv = validator.get_cv(cv, n_splits=n_splits, test_size_ratio=0.2,
+                              n_repeats=n_repeats,
+                              random_state=random_state, shuffle=True)
 
     fig, ax = plt.subplots()
     for i, (train, val) in enumerate(cv.split(X, y)):

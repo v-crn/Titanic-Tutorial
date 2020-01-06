@@ -1,5 +1,5 @@
-
 from vmlkit import utility as utl
+from vmlkit import validator
 
 import csv
 import optuna
@@ -29,11 +29,14 @@ def select_features_by_rfe(model, X, y, ratio_max_n_features=0.5,
 def optimize_features(model, X, y, max_n_features=None, n_trials=20,
                       direction='maximize', scoring='roc_auc',
                       n_jobs=-1, timeout=None,
+                      cv=None, n_splits=5, random_state=42, n_repeats=10,
                       path_features_opt=None,
                       path_log_opt_features=None):
     objective = Objective(model=model, X=X, y=y,
                           max_n_features=max_n_features,
                           direction=direction, scoring=scoring,
+                          cv=cv, n_splits=n_splits,
+                          random_state=random_state, n_repeats=n_repeats,
                           path_features_opt=path_features_opt)
 
     study = optuna.create_study(
@@ -63,6 +66,7 @@ def optimize_features(model, X, y, max_n_features=None, n_trials=20,
 class Objective():
     def __init__(self, model, X, y, max_n_features=None,
                  direction='maximize', scoring='roc_auc',
+                 cv=None, n_splits=5, random_state=42, n_repeats=10,
                  path_features_opt=None):
         self.X = X
         self.y = y
@@ -73,6 +77,17 @@ class Objective():
         self.best_features = None
         self.best_score = 0 if direction == 'maximize' else 1
         self.path_features_opt = path_features_opt
+
+        if cv is None:
+            cv = StratifiedKFold(
+                n_splits=5, random_state=42, shuffle=True)
+
+        if type(cv) is str:
+            cv = validator.get_cv(cv, n_splits=n_splits, test_size_ratio=0.2,
+                                  n_repeats=n_repeats,
+                                  random_state=random_state, shuffle=True)
+
+        self.cv = cv
 
         if max_n_features is None:
             max_n_features = X.shape[1]
@@ -101,10 +116,9 @@ class Objective():
         selected_features = utl.get_columns(X_selected)
 
         # Validation
-        skf = StratifiedKFold(n_splits=5, random_state=2019, shuffle=True)
         cv_result = cross_validate(model, X_selected, y,
                                    scoring=self.scoring,
-                                   cv=skf, return_estimator=False)
+                                   cv=self.cv, return_estimator=False)
         score = cv_result['test_score'].mean()
 
         # Score Log
