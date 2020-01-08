@@ -48,19 +48,19 @@ def optimize(models, params, X, y,
     """
     2. Optimize features number
     """
-    selected_features = optimize_features(
+    optimized_features = optimize_features(
         model=model_feature_select, X=X, y=y,
         max_n_features=max_n_features,
         n_trials=n_trials_select,
         direction=direction, scoring=scoring,
         timeout=timeout,
-        cv='StratifiedKFold',
+        cv=cv,
         n_splits=n_splits,
         random_state=random_state,
         path_features_opt=path_features_opt,
         path_log_opt_features=path_log_opt_features)
 
-    X_slc = X[selected_features]
+    X_slc = X[optimized_features]
 
     """
     3. Re-tuneup

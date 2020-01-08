@@ -1,3 +1,6 @@
+import config as c
+from vmlkit import utility as utl
+
 import os
 from ulid import ulid
 import time
@@ -7,6 +10,32 @@ import numpy as np
 import pandas as pd
 import csv
 import json
+import codecs
+
+
+def get_path_trial_folder_ulid(create_new):
+    # Make a directory for training model
+    if not utl.exists_dir(c.PATH_TRIAL_FOLDER):
+        utl.mkdir(c.PATH_TRIAL_FOLDER)
+
+    # Make a directory with ulid per each trial unit
+    if create_new:
+        trial_id = ulid()
+        path_trial_folder_ulid = c.MODEL_NAME + trial_id
+        utl.mkdir(path_trial_folder_ulid)
+        print(trial_id, file=codecs.open(c.PATH_ULID, 'w', 'utf-8'))
+        print('New tirial folder created!')
+    else:
+        for line in open(c.PATH_ULID):
+            trial_id = line.replace('\n', '')
+
+    path_trial_folder_ulid\
+        = c.PATH_TRIAL_FOLDER + trial_id + '_' + c.MODEL_NAME + '/'
+
+    if not utl.exists_dir(path_trial_folder_ulid):
+        utl.mkdir(path_trial_folder_ulid)
+
+    return path_trial_folder_ulid
 
 
 def get_columns_matched_bool_list(df, bool_list, boolean=True):
@@ -102,7 +131,7 @@ def write_text(text, path):
 
 
 def save(obj, path, compress=3):
-    if isinstance(obj, pd.DataFrame):
+    if isinstance(obj, pd.dfFrame):
         return obj.to_csv(path)
 
     if '.joblib' not in path:
@@ -114,7 +143,7 @@ def save(obj, path, compress=3):
 
 
 def write_csv(obj, path):
-    if isinstance(obj, pd.DataFrame):
+    if isinstance(obj, pd.dfFrame):
         return obj.to_csv(path)
 
     with open(path, 'w') as f:
@@ -191,39 +220,44 @@ def timer(name='process'):
         with timer('process train'):
             (Process)
     """
+    print(f'\n[{name}] start\n')
     start_time = time.time()
     yield
-    print(f'[{name}] done in {time.time() - start_time:.2f} sec')
+    print(f'\n[{name}] done in {time.time() - start_time:.2f} sec\n')
 
 
 def except_for(df, columns):
     return df.drop(columns, axis=1)
 
 
-def get_columns(data):
-    return [c for c in data.columns]
+def get_columns(df):
+    return list(df)
+    # return [c for c in df.columns]
 
 
 def get_common_columns(df1, df2):
     return np.intersect1d(df1.columns, df2.columns)
 
 
-def get_categorical_columns(data):
-    cols = [c for c in data.columns]
-    cat_cols = [c for c in cols if data[c].dtype == 'object']
+def get_categorical_columns(df):
+    cols = list(df)
+    # cols = [c for c in df.columns]
+    cat_cols = [c for c in cols if df[c].dtype == 'object']
     return cat_cols
 
 
-def get_numerical_columns(data):
-    cols = [c for c in data.columns]
-    num_cols = [c for c in cols if data[c].dtype != 'object']
+def get_numerical_columns(df):
+    cols = list(df)
+    # cols = [c for c in df.columns]
+    num_cols = [c for c in cols if df[c].dtype != 'object']
     return num_cols
 
 
-def get_columns_for_std(data):
-    cols = [c for c in data.columns]
-    num_cols = [c for c in cols if data[c].dtype != 'object']
-    cols_for_stdz = [c for c in num_cols if len(data[c].unique()) > 2]
+def get_columns_for_std(df):
+    cols = list(df)
+    # cols = [c for c in df.columns]
+    num_cols = [c for c in cols if df[c].dtype != 'object']
+    cols_for_stdz = [c for c in num_cols if len(df[c].unique()) > 2]
     return cols_for_stdz
 
 
@@ -242,16 +276,18 @@ def get_correlative_columns(df, threshold=0.95, inplace=False):
     return correlative_columns
 
 
-def get_categorical_features(data):
-    cols = [c for c in data.columns]
-    cat_cols = [c for c in cols if data[c].dtype == 'object']
-    return data[cat_cols]
+def get_categorical_features(df):
+    cols = list(df)
+    # cols = [c for c in df.columns]
+    cat_cols = [c for c in cols if df[c].dtype == 'object']
+    return df[cat_cols]
 
 
-def get_numerical_features(data):
-    cols = [c for c in data.columns]
-    num_cols = [c for c in cols if data[c].dtype != 'object']
-    return data[num_cols]
+def get_numerical_features(df):
+    cols = list(df)
+    # cols = [c for c in df.columns]
+    num_cols = [c for c in cols if df[c].dtype != 'object']
+    return df[num_cols]
 
 
 def get_target_class_ratio(y, target_class):
@@ -261,5 +297,5 @@ def get_target_class_ratio(y, target_class):
     return target_class_ratio
 
 
-def print_null_count(data):
-    print(data.isnull().sum())
+def get_null_count(df):
+    return df.isnull().sum()

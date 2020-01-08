@@ -10,7 +10,7 @@ from sklearn.model_selection import StratifiedKFold
 
 
 def select_features_by_rfe(model, X, y, ratio_max_n_features=0.5,
-                           path_features_opt=None):
+                           path_selected_features=None):
     n_features = X.shape[1]
     n_features_to_select = int(n_features * ratio_max_n_features)
     rfe = RFE(model, n_features_to_select=n_features_to_select)
@@ -20,8 +20,10 @@ def select_features_by_rfe(model, X, y, ratio_max_n_features=0.5,
         X.columns[np.where(rfe.support_ == False)[0]], axis=1)
     selected_features = utl.get_columns(X_selected)
 
-    if path_features_opt:
-        selected_features.to_csv(path_features_opt)
+    if path_selected_features:
+        with open(path_selected_features, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(selected_features)
 
     return selected_features
 
@@ -41,12 +43,17 @@ def optimize_features(model, X, y, max_n_features=None, n_trials=20,
 
     study = optuna.create_study(
         direction=direction,
-        sampler=optuna.samplers.RandomSampler(seed=8429),
+        sampler=optuna.samplers.RandomSampler(seed=random_state),
         pruner=optuna.pruners.MedianPruner())
     study.optimize(objective, n_trials=n_trials,
                    n_jobs=n_jobs, timeout=timeout)
     best_features = objective.best_features
     print('best features:', best_features)
+
+    if path_features_opt:
+        with open(path_features_opt, 'w') as f:
+            writer = csv.writer(f, lineterminator='\n')
+            writer.writerow(best_features)
 
     best_score = study.best_value
     print('best score:', best_score)
@@ -98,7 +105,6 @@ class Objective():
         X = self.X
         y = self.y
         direction = self.direction
-        path_features_opt = self.path_features_opt
         best_score = self.best_score
 
         # Trial parameter
@@ -129,9 +135,5 @@ class Objective():
                 or ((score < best_score) and (direction != 'maximize')):
             self.best_score = score
             self.best_features = selected_features
-            if path_features_opt:
-                with open(path_features_opt, 'w') as f:
-                    writer = csv.writer(f, lineterminator='\n')
-                    writer.writerow(selected_features)
 
         return score

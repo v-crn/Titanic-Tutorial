@@ -1,9 +1,4 @@
-from config import (PATH_TRAIN_PRP,
-                    PATH_TEST_PRP,
-                    PATH_ULID,
-                    TARGET_COLUMN,
-                    TEST_ID,
-                    PATH_TRIAL_FOLDER)
+import config as c
 from vmlkit import utility as utl
 
 import joblib
@@ -14,28 +9,23 @@ def main():
     """
     1. Loading the model
     """
-    # ULID Path
-    for line in open(PATH_ULID):
-        ULID = line.replace('\n', '')
-    print('ULID:', ULID)
-
     # Mutable Paths
-    PATH_TRIAL_FOLDER_ULID = PATH_TRIAL_FOLDER + ULID + '/'
-    PATH_FEATURES_OPT = PATH_TRIAL_FOLDER_ULID + 'optimized_features.csv'
-    PATH_MODEL = PATH_TRIAL_FOLDER_ULID + 'model.joblib'
-    PATH_SUBMIT = PATH_TRIAL_FOLDER_ULID + 'submit.csv'
+    path_trial_folder_ulid = utl.get_path_trial_folder_ulid(False)
+    path_selected_features = path_trial_folder_ulid + 'selected_features.csv'
+    path_model = path_trial_folder_ulid + 'model_opt.joblib'
+    path_submit = path_trial_folder_ulid + 'submit.csv'
 
     # Loading
-    model = joblib.load(PATH_MODEL)
+    model = joblib.load(path_model)
 
-    train_prp = joblib.load(PATH_TRAIN_PRP)
-    y_prp = train_prp[TARGET_COLUMN]
-    X_prp = utl.except_for(train_prp, TARGET_COLUMN)
-    selected_features = list(pd.read_csv(PATH_FEATURES_OPT))
+    train_prp = joblib.load(c.PATH_TRAIN_PRP)
+    y_prp = train_prp[c.TARGET_COLUMN]
+    X_prp = utl.except_for(train_prp, c.TARGET_COLUMN)
+    selected_features = list(pd.read_csv(path_selected_features))
 
     X_prp_slc = X_prp[selected_features]
 
-    X_test_prp = joblib.load(PATH_TEST_PRP)
+    X_test_prp = joblib.load(c.PATH_TEST_PRP)
     X_test_prp_slc = X_test_prp[selected_features]
 
     """
@@ -46,12 +36,12 @@ def main():
     y_pred = model.predict(X_test_prp_slc)
 
     df_prediction = pd.DataFrame({
-        TEST_ID: X_test_prp[TEST_ID],
-        TARGET_COLUMN: y_pred
+        c.TEST_ID: X_test_prp[c.TEST_ID],
+        c.TARGET_COLUMN: y_pred
     })
     print('Prediction\n', df_prediction.head())
 
-    with open(PATH_SUBMIT, 'w', encoding='utf-8-sig') as f:
+    with open(path_submit, 'w', encoding='utf-8-sig') as f:
         df_prediction.to_csv(f, index=False)
 
 # !kaggle competitions submit -c titanic -f ML/Kaggle/Titanic/trial_models/01DXQSYFD4W2NX064GHV38N53Z/submit.csv -m "LogisticRegression"
