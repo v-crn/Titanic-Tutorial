@@ -17,7 +17,7 @@ def drop_correlatives(df, threshold=0.95, inplace=False):
     to_drop = [column for column in upper.columns if any(
         upper[column] > threshold)]
 
-    return df.drop(df[to_drop], axis=1, inplace=inplace)
+    return df.drop(to_drop, axis=1, inplace=inplace)
 
 
 def replace_categorical_na(df, alt='mode'):

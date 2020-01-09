@@ -9,15 +9,14 @@ import pandas as pd
 
 def main():
     path_trial_folder_ulid = utl.get_path_trial_folder_ulid(c.CREATE_NEW)
-
     print('Trial:', path_trial_folder_ulid)
 
     # Mutable Paths
-    path_selected_features = path_trial_folder_ulid + 'selected_features.csv'
-    path_log_tuneup = path_trial_folder_ulid + 'log_tuneup.csv'
-    path_model = path_trial_folder_ulid + 'model.joblib'
-    path_model_params = path_trial_folder_ulid + 'model_params.txt'
-    path_roc_curve = path_trial_folder_ulid + 'roc_curve.png'
+    path_selected_features = path_trial_folder_ulid + c.SELECTED_FEATURES
+    path_log_tuneup = path_trial_folder_ulid + c.LOG_TUNEUP_FOR_SLC
+    path_model = path_trial_folder_ulid + c.MODEL_SLC
+    path_model_params = path_trial_folder_ulid + c.MODEL_PARAMS_SLC
+    path_roc_curve = path_trial_folder_ulid + c.ROC_CURVE_SLC
 
     # Loading preprocessed data
     train = joblib.load(c.PATH_TRAIN_PRP)

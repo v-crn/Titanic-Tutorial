@@ -107,13 +107,6 @@ def mkdir(path):
     os.mkdir(path)
 
 
-# def load(path, return_list=False):
-#     if return_list:
-#         return list(pd.read_csv(path))
-
-#     return pd.read_csv(path)
-
-
 def load_csv_and_save_pkl(filepath, save=True):
     pkl_path = filepath.replace('csv', 'pkl')
     df = None

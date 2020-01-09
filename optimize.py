@@ -14,9 +14,9 @@ def main():
     print('Trial:', path_trial_folder_ulid)
 
     # Mutable Paths
-    path_optimized_features = path_trial_folder_ulid + 'optimized_features.csv'
+    path_optimized_features = path_trial_folder_ulid + c.OPTIMIZED_FEATURES
     path_log_optimized_features\
-        = path_trial_folder_ulid + 'log_opt_features.csv'
+        = path_trial_folder_ulid + c.LOG_OPT_FEATURES
     path_log_tuneup = path_trial_folder_ulid + 'log_opt_tuneup.csv'
     path_log_tuneup_feature_select\
         = path_trial_folder_ulid + 'log_opt_tuneup_feature_select.csv'

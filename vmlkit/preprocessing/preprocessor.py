@@ -63,6 +63,8 @@ class Preprocessor():
             df_, self.encoder = enc.one_hot_encode(df_, need_encoder=True)
         if encoder == 'ordinal':
             df_, self.encoder = enc.ordinal_encode(df_, need_encoder=True)
+        if encoder == 'target':
+            df_, self.encoder = enc.target_encode(df_, need_encoder=True)
 
         df = pd.concat([df[cols_exclusive], df_], axis=1)
         print('\nShape after preprocessing:\n', df.shape)

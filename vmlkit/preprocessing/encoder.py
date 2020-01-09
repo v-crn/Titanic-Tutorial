@@ -57,3 +57,35 @@ def ordinal_encode(df, verbose=0, mapping=None, cols=None,
         return df_, enc
 
     return df_
+
+
+def target_encode(df, verbose=0, cols=None,
+                  drop_invariant=False,
+                  return_df=True,
+                  handle_missing='value',
+                  handle_unknown='value',
+                  min_samples_leaf=1,
+                  smoothing=1.0,
+                  need_encoder=False):
+    """
+    Encodes categorical features as ordinal, in one ordered feature.
+    This method is so-called "label encoding."
+    """
+    cat_cols = utl.get_categorical_columns(df)
+
+    enc = ce.ordinal.OrdinalEncoder(verbose=verbose, cols=cols,
+                                    drop_invariant=drop_invariant,
+                                    return_df=return_df,
+                                    handle_missing=handle_missing,
+                                    handle_unknown=handle_unknown,
+                                    min_samples_leaf=min_samples_leaf,
+                                    smoothing=smoothing)
+
+    encoded = enc.fit_transform(df[cat_cols])
+
+    df_ = pd.concat([df.drop(cat_cols, axis=1), encoded], axis=1)
+
+    if need_encoder:
+        return df_, enc
+
+    return df_

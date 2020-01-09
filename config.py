@@ -32,12 +32,19 @@ USE_SELECTED_FEATURES = False
 # Feature Selection
 RATIO_MAX_N_FEATURES = 0.8
 N_TRIALS_SELECT = 5
+SELECTED_FEATURES = 'selected_features.csv'
+LOG_TUNEUP_FOR_SLC = 'log_tuneup.csv'
+MODEL_SLC = 'model.joblib'
+MODEL_PARAMS_SLC = 'model_params.txt'
+ROC_CURVE_SLC = 'roc_curve.png'
 
 # Optimization
 N_TRIALS_TUNE = 5
 TIMEOUT = None
 STUDY_NAME_OPT_FIEATURES = None
 PATH_OPTUNA_STORAGE_OPT_FIEATURES = None
+OPTIMIZED_FEATURES = 'optimized_features.csv'
+LOG_OPT_FEATURES = 'log_opt_features.csv'
 
 # CV
 CV = 'StratifiedKFold'
@@ -50,9 +57,9 @@ USE_PREDICT_PROBA = False
 TRIAL_FOLDER_NAME_FOR_TEST = None
 PATH_TRIAL_FOLDER_FOR_TEST\
     = PATH_TRIAL_FOLDER + TRIAL_FOLDER_NAME_FOR_TEST + '/'
-MODEL_FILE_FOR_TEST = 'model.joblib'
-SELECTED_FEATURES_FILE = 'selected_features.csv'
-SUBMIT_FILE = 'submit.csv'
+MODEL_FOR_TEST = 'model.joblib'
+SELECTED_FEATURES = 'selected_features.csv'
+SUBMIT = 'submit.csv'
 
 """
 Preprocess

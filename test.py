@@ -13,9 +13,9 @@ def main():
     path_trial_folder_ulid = utl.get_path_trial_folder_ulid(False)
     print('Test:', path_trial_folder_ulid)
 
-    path_selected_features = path_trial_folder_ulid + c.SELECTED_FEATURES_FILE
-    path_model = path_trial_folder_ulid + c.MODEL_FILE_FOR_TEST
-    path_submit = path_trial_folder_ulid + c.SUBMIT_FILE
+    path_selected_features = path_trial_folder_ulid + c.SELECTED_FEATURES
+    path_model = path_trial_folder_ulid + c.MODEL_FOR_TEST
+    path_submit = path_trial_folder_ulid + c.SUBMIT
 
     # Loading
     model = joblib.load(path_model)
