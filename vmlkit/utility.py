@@ -14,9 +14,17 @@ import codecs
 
 
 def get_path_trial_folder_ulid(create_new):
-    # Make a directory for training model
+    # Make a cache directory
+    if not utl.exists_dir(c.PATH_CACHE_FOLDER):
+        utl.mkdir(c.PATH_CACHE_FOLDER)
+
+    # Make a directory for trial
     if not utl.exists_dir(c.PATH_TRIAL_FOLDER):
         utl.mkdir(c.PATH_TRIAL_FOLDER)
+
+    # For test
+    if c.TRIAL_FOLDER_NAME_FOR_TEST is not None:
+        return c.PATH_TRIAL_FOLDER_FOR_TEST
 
     # Make a directory with ulid per each trial unit
     if create_new:

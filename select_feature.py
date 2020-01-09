@@ -51,7 +51,9 @@ def main():
         = select_features_by_rfe(
             model=model, X=X, y=y,
             ratio_max_n_features=c.RATIO_MAX_N_FEATURES,
-            path_selected_features=path_selected_features)
+            path_selected_features=path_selected_features,
+            path_study_name_opt_features=c.STUDY_NAME_OPT_FIEATURES,
+            path_optuna_storage_opt_features=c.PATH_OPTUNA_STORAGE_OPT_FIEATURES)
 
     print(selected_features)
 

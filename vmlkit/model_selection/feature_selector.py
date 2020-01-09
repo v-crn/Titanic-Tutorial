@@ -33,7 +33,9 @@ def optimize_features(model, X, y, max_n_features=None, n_trials=20,
                       n_jobs=-1, timeout=None,
                       cv=None, n_splits=5, random_state=42, n_repeats=10,
                       path_features_opt=None,
-                      path_log_opt_features=None):
+                      path_log_opt_features=None,
+                      path_study_name_opt_features=None,
+                      path_optuna_storage_opt_features=None):
     objective = Objective(model=model, X=X, y=y,
                           max_n_features=max_n_features,
                           direction=direction, scoring=scoring,
@@ -44,7 +46,10 @@ def optimize_features(model, X, y, max_n_features=None, n_trials=20,
     study = optuna.create_study(
         direction=direction,
         sampler=optuna.samplers.RandomSampler(seed=random_state),
-        pruner=optuna.pruners.MedianPruner())
+        pruner=optuna.pruners.MedianPruner(),
+        study_name=path_study_name_opt_features,
+        storage=path_optuna_storage_opt_features,
+        load_if_exists=True)
     study.optimize(objective, n_trials=n_trials,
                    n_jobs=n_jobs, timeout=timeout)
     best_features = objective.best_features

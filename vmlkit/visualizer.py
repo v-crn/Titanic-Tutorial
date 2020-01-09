@@ -4,8 +4,7 @@ import numpy as np
 from scipy import interp
 import pandas_profiling as pdp
 from IPython.display import HTML
-from sklearn.metrics import auc
-from sklearn.metrics import plot_roc_curve
+from sklearn.metrics import auc, plot_roc_curve
 from sklearn.model_selection import StratifiedKFold
 import matplotlib.pyplot as plt
 
