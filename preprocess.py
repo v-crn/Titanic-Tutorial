@@ -26,6 +26,7 @@ def main():
                 X_test, savepath=c.PATH_PROFILE_REPORT_TEST)
 
     prp = Preprocessor()
+    prp.set_scaler(method=c.SCALING)
 
     with utl.timer('Preprocessing train'):
         train_prp = prp.exe(
@@ -51,8 +52,10 @@ def main():
 
     with utl.timer('Preprocessing test'):
         X_test_prp = prp.exe_test(
-            X_test, exclusive_features=c.EXCLUSIVE_FEATURES,
-            alt_num=c.ALT_CAT, alt_cat=c.ALT_CAT,
+            X=X_test,
+            y=None,
+            exclusive_features=c.EXCLUSIVE_FEATURES,
+            alt_num=c.ALT_NUM, alt_cat=c.ALT_CAT,
             path_test_prp=c.PATH_TEST_PRP)
 
         print('X_test_prp.shape:', X_test_prp.shape)

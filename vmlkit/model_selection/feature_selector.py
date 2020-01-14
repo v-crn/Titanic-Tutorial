@@ -18,7 +18,7 @@ def select_features_by_rfe(model, X, y, ratio_max_n_features=0.5,
 
     X_selected = X.drop(
         X.columns[np.where(rfe.support_ == False)[0]], axis=1)
-    selected_features = utl.get_columns(X_selected)
+    selected_features = list(X_selected)
 
     if path_selected_features:
         with open(path_selected_features, 'w') as f:
@@ -124,7 +124,7 @@ class Objective():
         # Selected features
         X_selected = X.drop(
             X.columns[np.where(rfe.support_ == False)[0]], axis=1)
-        selected_features = utl.get_columns(X_selected)
+        selected_features = list(X_selected)
 
         # Validation
         cv_result = cross_validate(model, X_selected, y,

@@ -55,8 +55,9 @@ SEED = 42
 # Test
 USE_PREDICT_PROBA = False
 TRIAL_FOLDER_NAME_FOR_TEST = None
-PATH_TRIAL_FOLDER_FOR_TEST\
-    = PATH_TRIAL_FOLDER + TRIAL_FOLDER_NAME_FOR_TEST + '/'
+if TRIAL_FOLDER_NAME_FOR_TEST is not None:
+    PATH_TRIAL_FOLDER_FOR_TEST\
+        = PATH_TRIAL_FOLDER + TRIAL_FOLDER_NAME_FOR_TEST + '/'
 MODEL_FOR_TEST = 'model.joblib'
 SELECTED_FEATURES = 'selected_features.csv'
 SUBMIT = 'submit.csv'
@@ -64,6 +65,7 @@ SUBMIT = 'submit.csv'
 """
 Preprocess
 """
+SCALING = 'standard'
 THRESH_NAN_RATIO_PER_COL = 0.5
 THRESH_CORR = 0.95
 ALT_NUM = 'mean'

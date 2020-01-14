@@ -242,21 +242,18 @@ def get_common_columns(df1, df2):
 
 def get_categorical_columns(df):
     cols = list(df)
-    # cols = [c for c in df.columns]
     cat_cols = [c for c in cols if df[c].dtype == 'object']
     return cat_cols
 
 
 def get_numerical_columns(df):
     cols = list(df)
-    # cols = [c for c in df.columns]
     num_cols = [c for c in cols if df[c].dtype != 'object']
     return num_cols
 
 
 def get_columns_for_std(df):
     cols = list(df)
-    # cols = [c for c in df.columns]
     num_cols = [c for c in cols if df[c].dtype != 'object']
     cols_for_stdz = [c for c in num_cols if len(df[c].unique()) > 2]
     return cols_for_stdz
@@ -279,14 +276,12 @@ def get_correlative_columns(df, threshold=0.95, inplace=False):
 
 def get_categorical_features(df):
     cols = list(df)
-    # cols = [c for c in df.columns]
     cat_cols = [c for c in cols if df[c].dtype == 'object']
     return df[cat_cols]
 
 
 def get_numerical_features(df):
     cols = list(df)
-    # cols = [c for c in df.columns]
     num_cols = [c for c in cols if df[c].dtype != 'object']
     return df[num_cols]
 

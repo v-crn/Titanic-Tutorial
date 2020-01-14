@@ -6,30 +6,90 @@ from sklearn.preprocessing import (StandardScaler, MinMaxScaler,
                                    QuantileTransformer)
 
 
-class ReScaler():
+class Scaler():
 
-    def __init__(self):
-        self.std = StandardScaler()
+    def __init__(self, method):
+        self.method = method
 
-    def standardize(self, df):
-        std = StandardScaler()
-        cols_std = utl.get_columns_for_std(df)
-        df.loc[:, cols_std] = std.fit_transform(df[cols_std])
-        self.std = std
+        if method == 'standard':
+            self.scaler = StandardScaler()
+
+        if method == 'minimax':
+            self.scaler = MinMaxScaler()
+
+        if method == 'robust':
+            quantile_range = (25.0, 75.0)
+            self.scaler = RobustScaler(with_centering=True,
+                                       with_scaling=True,
+                                       quantile_range=quantile_range,
+                                       copy=True)
+
+        if method == 'gaussian':
+            n_quantiles = 1000,
+            ignore_implicit_zeros = False,
+            subsample = 100000,
+            random_state = None,
+            copy = True
+
+            self.scaler = QuantileTransformer(
+                n_quantiles=n_quantiles,
+                output_distribution='normal',
+                ignore_implicit_zeros=ignore_implicit_zeros,
+                subsample=subsample,
+                random_state=random_state,
+                copy=copy)
+
+        if method == 'uniform':
+            n_quantiles = 1000,
+            ignore_implicit_zeros = False,
+            subsample = 100000,
+            random_state = None,
+            copy = True
+
+            self.scaler = QuantileTransformer(
+                n_quantiles=n_quantiles,
+                output_distribution='uniform',
+                ignore_implicit_zeros=ignore_implicit_zeros,
+                subsample=subsample,
+                random_state=random_state, copy=copy)
+
+        if method == 'log-abs':
+            self.scaler = log_abs_scaler()
+
+        if method == 'yeo-johnson':
+            self.scaler = PowerTransformer(method='yeo-johnson')
+
+    def set_scaler(self, scaler):
+        self.scaler = scaler
+
+    def fit_transform(self, df):
+        df = df.copy()
+        if self.method == 'standard':
+            scaling_cols = utl.get_columns_for_std(df)
+
+        if self.method == 'yeo-johnson':
+            scaling_cols = utl.get_numerical_columns(df)
+
+        df.loc[:, scaling_cols] = self.scaler.fit_transform(df[scaling_cols])
 
         return df
 
-    def re_standardize(self, df):
-        cols_std = utl.get_columns_for_std(df)
-        df.loc[:, cols_std] = self.std.transform(df[cols_std])
+    def transform(self, df):
+        if self.method == 'standard':
+            scaling_cols = utl.get_columns_for_std(df)
+
+        if self.method == 'yeo-johnson':
+            scaling_cols = utl.get_numerical_columns(df)
+
+        df.loc[:, scaling_cols] = self.scaler.transform(df[scaling_cols])
 
         return df
 
 
 def standardize(df):
-    std = StandardScaler()
+    standard = StandardScaler()
     cols_std = utl.get_columns_for_std(df)
-    df.loc[:, cols_std] = std.fit_transform(df[cols_std])
+    df.loc[:, cols_std] = standard.fit_transform(df[cols_std])
 
     return df
 
@@ -86,9 +146,31 @@ def uniform_transform(df, n_quantiles=1000,
     return df
 
 
+class log_abs_scaler():
+    def __init__(self):
+        self.df = None
+
+    def fit(self, df):
+        self.df = df
+
+    def transform(self, df):
+        num_cols = utl.get_numerical_columns(df)
+        x = df[num_cols].copy()
+        df[num_cols] = np.sign(x) * np.log(np.abs(x))
+
+        return df
+
+    def fit_transform(self, df):
+        num_cols = utl.get_numerical_columns(df)
+        x = df[num_cols].copy()
+        df[num_cols] = np.sign(x) * np.log(np.abs(x))
+
+        return df
+
+
 def log_abs_transform(df):
     num_cols = utl.get_numerical_columns(df)
-    x = df[num_cols]
+    x = df[num_cols].copy()
     df[num_cols] = np.sign(x) * np.log(np.abs(x))
 
     return df

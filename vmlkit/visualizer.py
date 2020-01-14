@@ -1,12 +1,14 @@
 from vmlkit import validator
 
 import numpy as np
+import pandas as pd
 from scipy import interp
 import pandas_profiling as pdp
 from IPython.display import HTML
 from sklearn.metrics import auc, plot_roc_curve
 from sklearn.model_selection import StratifiedKFold
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def display_html(path):
