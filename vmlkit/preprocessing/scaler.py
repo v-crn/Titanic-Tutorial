@@ -9,6 +9,7 @@ from sklearn.preprocessing import (StandardScaler, MinMaxScaler,
 class Scaler():
 
     def __init__(self, method):
+        self.scaling_cols = None
         self.method = method
 
         if method == 'standard':
@@ -65,22 +66,18 @@ class Scaler():
     def fit_transform(self, df):
         df = df.copy()
         if self.method == 'standard':
-            scaling_cols = utl.get_columns_for_std(df)
+            self.scaling_cols = utl.get_columns_for_std(df)
 
         if self.method == 'yeo-johnson':
-            scaling_cols = utl.get_numerical_columns(df)
+            self.scaling_cols = utl.get_numerical_columns(df)
 
-        df.loc[:, scaling_cols] = self.scaler.fit_transform(df[scaling_cols])
+        df.loc[:, self.scaling_cols] = self.scaler.fit_transform(
+            df[self.scaling_cols])
 
         return df
 
     def transform(self, df):
-        if self.method == 'standard':
-            scaling_cols = utl.get_columns_for_std(df)
-
-        if self.method == 'yeo-johnson':
-            scaling_cols = utl.get_numerical_columns(df)
-
+        scaling_cols = self.scaling_cols
         df.loc[:, scaling_cols] = self.scaler.transform(df[scaling_cols])
 
         return df

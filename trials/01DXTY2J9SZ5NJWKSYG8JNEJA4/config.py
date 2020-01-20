@@ -50,8 +50,8 @@ PATH_TRAIN_PRP = PATH_DATA_FOLDER + 'train_ppr_' + CAT_ENCODER + '.joblib'
 # PATH_TRAIN_PRP = PATH_DATA_FOLDER + 'train_prp.joblib'
 PATH_TEST_PRP = PATH_DATA_FOLDER + 'test_ppr_' + CAT_ENCODER + '.joblib'
 
-PATH_PROFILE_REPORT = PATH_DATA_FOLDER + 'profile_report.html'
-PATH_PROFILE_REPORT_PRP\
+PATH_PROFILE_REPORT_TRAIN = PATH_DATA_FOLDER + 'profile_report.html'
+PATH_PROFILE_REPORT_TRAIN_PRP\
     = PATH_DATA_FOLDER + 'profile_report_prp_' + CAT_ENCODER + '.html'
 
 PATH_TRIAL_FOLDER = PATH_ROOT + 'trials/'
